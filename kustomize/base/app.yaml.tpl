@@ -10,7 +10,7 @@ spec:
       type: backend-db-google
       location: local
   parameters:
-    namespace: production
+    namespace: development
     image: [[.ImageRepo]]/[[.AppName]]:latest
     port: 8080
     host: [[.Host]]

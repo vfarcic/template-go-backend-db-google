@@ -4,4 +4,5 @@ metadata:
   name: idp-demo
 spec:
   parameters:
+    namespace: production
     image: docker.io/vfarcic/idp-demo:1.2.8
