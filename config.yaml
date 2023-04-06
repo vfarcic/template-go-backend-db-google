@@ -3,17 +3,13 @@ config:
     backend: local
     options:
       stateFile: devstream.state
-vars:
-  githubUser: vfarcic
-  dockerUser: vfarcic
-  app: devstream-demo-app
 tools:
   - name: repo-scaffolding
     instanceID: myapp
     options:
       destinationRepo:
-        owner: [[env GITHUB_TOKEN]]
-        name: [[app]]
+        owner: [[env GITHUB_USER]]
+        name: [[env APP]]
         branch: main
         scmType: github
         token: [[env GITHUB_TOKEN]]
@@ -22,7 +18,7 @@ tools:
         name: template-go-backend-db-google
         scmType: github
       vars:
-        ImageRepo: docker.io/vfarcic
-        Host: acme.com
-        DbVersion: 13
-        DbSize: small
+        ImageRepo: [[env IMAGE_REPO]]
+        Host: [[env HOST]]
+        DbVersion: [[env DB_VERSION]]
+        DbSize: [[env DB_SIZE]]
