@@ -3,7 +3,7 @@ apiVersion: devopstoolkitseries.com/v1alpha1
 kind: AppClaim
 metadata:
   annotations:
-    gitHubOrg: [[.GitHubOrg]]
+    gitHubOrg: [[.GitHubUser]]
     gitHubRepo: [[.AppName]]
   name: [[.AppName]]
 spec:
