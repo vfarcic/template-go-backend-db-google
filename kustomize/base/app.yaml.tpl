@@ -18,5 +18,5 @@ spec:
     port: 8080
     host: [[.Host]]
     db:
-      version: [[.DbVersion]]
+      version: "[[.DbVersion]]"
       size: [[.DbSize]]
