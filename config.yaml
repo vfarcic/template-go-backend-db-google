@@ -18,6 +18,7 @@ tools:
         name: template-go-backend-db-google
         scmType: github
       vars:
+        ImageRepoUser: [[env DOCKERHUB_USER]]
         ImageRepo: [[env IMAGE_REPO]]
         Host: [[env HOST]]
         DbVersion: [[env DB_VERSION]]
