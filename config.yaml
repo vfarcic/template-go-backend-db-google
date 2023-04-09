@@ -23,4 +23,5 @@ tools:
         Host: [[env HOST]]
         DbVersion: [[env DB_VERSION]]
         DbSize: [[env DB_SIZE]]
+        GitHubOrg: [[env GITHUB_ORG]]
         GitHubUser: [[env GITHUB_USER]]
