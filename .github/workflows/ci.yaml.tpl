@@ -24,9 +24,9 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: [[.ImageRepo]]/idp-demo:latest,[[.ImageRepo]]/idp-demo:1.2.${{ github.run_number }}
+          tags: [[.ImageRepo]]/[[.AppName]]:latest,[[.ImageRepo]]/[[.AppName]]:1.2.${{ github.run_number }}
       - name: Update manifest
-        run: yq --inplace '.spec.parameters.image = "docker.io/[[.ImageRepo]]/idp-demo:1.2.${{ github.run_number }}"' kustomize/overlays/production/app-patch.yaml
+        run: yq --inplace '.spec.parameters.image = "docker.io/[[.ImageRepo]]/[[.AppName]]:1.2.${{ github.run_number }}"' kustomize/overlays/production/app-patch.yaml
       - name: Commit changes
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
