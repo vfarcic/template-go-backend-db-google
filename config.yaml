@@ -8,7 +8,7 @@ tools:
     instanceID: myapp
     options:
       destinationRepo:
-        owner: [[env GITHUB_USER]]
+        org: [[env GITHUB_ORG]]
         name: [[env APP]]
         branch: main
         scmType: github
