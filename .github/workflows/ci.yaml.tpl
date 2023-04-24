@@ -26,7 +26,7 @@ jobs:
           push: true
           tags: [[.ImageRepo]]/[[.AppName]]:latest,[[.ImageRepo]]/[[.AppName]]:1.2.${{ github.run_number }}
       - name: Update manifest
-        run: yq --inplace '.spec.parameters.image = "docker.io/[[.ImageRepo]]/[[.AppName]]:1.2.${{ github.run_number }}"' kustomize/overlays/production/app-patch.yaml
+        run: yq --inplace '.spec.parameters.image = "[[.ImageRepo]]/[[.AppName]]:1.2.${{ github.run_number }}"' kustomize/overlays/production/app-patch.yaml
       - name: Commit changes
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
