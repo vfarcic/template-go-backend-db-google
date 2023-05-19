@@ -7,7 +7,7 @@ spec:
   parameters:
     namespace: production
     image: docker.io/vfarcic/[[.AppName]]:0.0.0
-    host: preview.[[.Host]]
+    host: [[.Host]]
   compositionSelector:
     matchLabels:
       type: backend-db-local
