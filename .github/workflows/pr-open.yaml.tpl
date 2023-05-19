@@ -28,7 +28,7 @@ jobs:
           tags: [[.ImageRepo]]/[[.AppName]]:1.2.${{ github.run_number }}
       - name: Apply the app
         run: |
-          APP_ID=[[.AppName]]-${{ github.head_ref }}
+          APP_ID=[[.AppName]]-${{ github.event.number }}
           HOST=$(yq ".spec.parameters.host" kustomize/overlays/previews/app-patch.yaml)
           yq --inplace ".spec.id = \"$APP_ID\"" kustomize/overlays/previews/app-patch.yaml
           yq --inplace ".spec.parameters.namespace = \"$APP_ID\"" kustomize/overlays/previews/app-patch.yaml
@@ -36,5 +36,7 @@ jobs:
           yq --inplace ".spec.parameters.host = \"${{ github.head_ref }}-$HOST\"" kustomize/overlays/previews/app-patch.yaml
           yq --inplace ".spec.connection.postgres.host.value = \"$APP_ID-postgresql\"" kustomize/overlays/previews/schema-patch.yaml
           yq --inplace ".spec.connection.postgres.password.valueFrom.secretKeyRef.name = \"$APP_ID-postgresql\"" kustomize/overlays/previews/schema-patch.yaml
-          kubectl create namespace $APP_ID
-          kubectl --namespace [[.AppName]]-${{ github.head_ref }} apply --kustomize kustomize/overlays/previews
+          yq --inplace ".metadata.name = \"$APP_ID\"" kustomize/overlays/previews/namespace.yaml
+          echo "${{ secrets.KUBECONFIG_PREVIEWS }}" >kubeconfig.yaml
+          export KUBECONFIG=$PWD/kubeconfig.yaml
+          kubectl --namespace $APP_ID apply --kustomize kustomize/overlays/previews

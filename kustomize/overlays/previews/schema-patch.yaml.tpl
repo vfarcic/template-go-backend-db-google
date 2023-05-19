@@ -1,4 +1,4 @@
-apiVersion: devopstoolkitseries.com/v1alpha1
+apiVersion: databases.schemahero.io/v1alpha4
 kind: Database
 metadata:
   name: [[.AppName]]
