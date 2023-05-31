@@ -28,9 +28,11 @@ jobs:
           tags: [[.ImageRepo]]/[[.AppName]]:0.0.${{ github.run_number }}
       - name: Apply the app
         run: |
+          echo "${{ secrets.KUBECONFIG_PREVIEWS }}" >kubeconfig.yaml
+          export KUBECONFIG=$PWD/kubeconfig.yaml
           APP_ID=[[.AppName]]-${{ github.event.number }}
           echo "APP_ID=$APP_ID" >> "$GITHUB_ENV"
-          HOST=$(yq ".spec.parameters.host" kustomize/overlays/previews/app-patch.yaml)
+          HOST=[[.AppName]].$(kubectl --namespace traefik get service previews-traefik --output jsonpath="{.status.loadBalancer.ingress[0].ip}").nip.io
           echo "HOST=$HOST" >> "$GITHUB_ENV"
           yq --inplace ".spec.id = \"$APP_ID\"" kustomize/overlays/previews/app-patch.yaml
           yq --inplace ".spec.parameters.namespace = \"$APP_ID\"" kustomize/overlays/previews/app-patch.yaml
@@ -39,8 +41,6 @@ jobs:
           yq --inplace ".spec.connection.postgres.host.value = \"$APP_ID-postgresql\"" kustomize/overlays/previews/schema-patch.yaml
           yq --inplace ".spec.connection.postgres.password.valueFrom.secretKeyRef.name = \"$APP_ID-postgresql\"" kustomize/overlays/previews/schema-patch.yaml
           yq --inplace ".metadata.name = \"$APP_ID\"" kustomize/overlays/previews/namespace.yaml
-          echo "${{ secrets.KUBECONFIG_PREVIEWS }}" >kubeconfig.yaml
-          export KUBECONFIG=$PWD/kubeconfig.yaml
           kubectl --namespace $APP_ID apply --kustomize kustomize/overlays/previews
       - uses: thollander/actions-comment-pull-request@v2
         with:
