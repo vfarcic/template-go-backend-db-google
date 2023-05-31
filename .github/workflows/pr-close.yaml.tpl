@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Remove the app
         run: |
-          APP_ID=[[.AppName]]-${{ github.head_ref }}
+          APP_ID=[[.AppName]]-${{ github.event.number }}
           echo "${{ secrets.KUBECONFIG_PREVIEWS }}" >kubeconfig.yaml
           export KUBECONFIG=$PWD/kubeconfig.yaml
           kubectl delete namespace $APP_ID
