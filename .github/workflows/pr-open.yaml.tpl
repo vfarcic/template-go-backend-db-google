@@ -4,8 +4,8 @@ on:
   pull_request:
     types:
       - opened
-      - edited
       - reopened
+      - synchronize
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -25,7 +25,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: [[.ImageRepo]]/[[.AppName]]:1.2.${{ github.run_number }}
+          tags: [[.ImageRepo]]/[[.AppName]]:0.0.${{ github.run_number }}
       - name: Apply the app
         run: |
           APP_ID=[[.AppName]]-${{ github.event.number }}
@@ -46,7 +46,7 @@ jobs:
         with:
           message: |
             The application was deployed to a preview environment in the namespace **${{ env.APP_ID }}**.
-            It is currently based on the image **${{ secrets.DOCKERHUB_USER }}/test:1.2.${{ github.run_number }}**.
+            It is currently based on the image **${{ secrets.DOCKERHUB_USER }}/test:0.0.${{ github.run_number }}**.
             It is accessible through http://pr-${{ github.event.number }}-${{ env.HOST }}.
             Once the pull request is merged, the whole preview environment will be **removed** :skull:
           comment_tag: execution
